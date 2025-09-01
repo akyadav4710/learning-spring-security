@@ -1,0 +1,23 @@
+9️⃣ Test Controllers
+java
+Copy
+Edit
+// UserController.java
+@RestController
+@RequestMapping("/user")
+public class UserController {
+    @GetMapping("/profile")
+    public String profile(Authentication auth) {
+        return "User Profile of " + auth.getName();
+    }
+}
+
+// AdminController.java
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+    @GetMapping("/dashboard")
+    public String dashboard(Authentication auth) {
+        return "Admin Dashboard for " + auth.getName();
+    }
+}

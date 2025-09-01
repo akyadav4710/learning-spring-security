@@ -1,0 +1,28 @@
+4️⃣ JWT Utility
+java
+Copy
+Edit
+// JwtUtil.java
+public class JwtUtil {
+    private static final String SECRET = "mysecretkeymysecretkeymysecretkey";
+
+    public static String generate(String username, String role) {
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("role", role)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public static String extractUsername(String token) {
+        return Jwts.parserBuilder().setSigningKey(SECRET.getBytes()).build()
+                .parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public static String extractRole(String token) {
+        return (String) Jwts.parserBuilder().setSigningKey(SECRET.getBytes()).build()
+                .parseClaimsJws(token).getBody().get("role");
+    }
+}
